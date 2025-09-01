@@ -1,6 +1,7 @@
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { useEffect, useState } from "react";
 import { Platform } from "react-native";
 
 /**
@@ -67,7 +68,8 @@ function handleRegistrationError(errorMessage: string) {
 }
 
 /**
- *
+ * Función para registrar el token de expo push, en caso de que nos los otorguen
+ * @returns string - Token de expo push
  */
 async function registerForPushNotificationsAsync() {
 	// Si es android, se configura el canal de notificaciones
@@ -111,28 +113,72 @@ async function registerForPushNotificationsAsync() {
 			handleRegistrationError("Project ID not found"); // si no se tiene el projectId, lanza un error
 		}
 
-        // sí tenemos acceso al token
+		// sí tenemos acceso al token
 		try {
 			const pushTokenString = (
 				await Notifications.getExpoPushTokenAsync({
 					projectId,
 				})
 			).data;
-			console.log({[Platform.OS]: pushTokenString});
+			console.log({ [Platform.OS]: pushTokenString });
 			return pushTokenString; // sí tenemos acceso al token, se retorna
-
 		} catch (error: unknown) {
 			handleRegistrationError(`${error}`);
 		}
-
 	} else {
 		handleRegistrationError("Must use physical device for push notifications"); // si no es dispositivo físico, lanza un error
 	}
 }
 
+let areListenersReady = false;
+/**
+ * usePushNotifications escucha las notificaciones entrantes y almacena en estado
+ * maneja las respuestas de los usuarios a las notificaciones
+ */
 export const usePushNotifications = () => {
+	const [expoPushToken, setExpoPushToken] = useState(""); // puede ser un useRef, pero al tener que mostrarlo en pantalla, se usa un useState
+	const [notifications, setNotifications] = useState<
+		Notifications.Notification[]
+	>([]);
+
+	useEffect(() => {
+        if (areListenersReady) return; // sí ya se han añadido los listeners, no se vuelven a añadir, evita duplicados
+		registerForPushNotificationsAsync() // se guarda el token de expo push
+			.then((token) => setExpoPushToken(token ?? ""))
+			.catch((error: any) => setExpoPushToken(`${error}`));
+	}, []);
+
+	useEffect(() => {
+        if (areListenersReady) return; // sí ya se han añadido los listeners, no se vuelven a añadir, evita duplicados
+
+        areListenersReady = true;
+
+		const notificationListener = Notifications.addNotificationReceivedListener(  // añado el listener para recibir las notificaciones push
+			(notification) => {
+				setNotifications([notification, ...notifications]); // se agrega la notificación nueva al inicio de la lista
+			}
+		);
+
+		const responseListener =
+			Notifications.addNotificationResponseReceivedListener((response) => {
+                /* escuchar cuando el usuario interactúa con una notificación push.
+                el listener se activa cuando el usuario toca, desliza, presiona o interactúa con los botones de una notificación,
+                */
+				console.log(response);
+			});
+
+		return () => {
+			notificationListener.remove(); // se remueve el listener para recibir las notificaciones push
+			responseListener.remove();
+		};
+	}, []);
+
 	return {
 		// Properties
+        expoPushToken,
+        notifications,
+
 		// Methods
+        sendPushNotification,
 	};
 };
