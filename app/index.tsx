@@ -5,8 +5,16 @@ import { useEffect, useState } from "react";
 import { Button, Platform, Text, View } from "react-native";
 
 /*
+https://onesignal.com/ para enviar notificaciones push ilimitadas a tus usuarios, expo solo permite 600 notificaciones por segundo
+
 Documentación de Expo Notifications:
 https://docs.expo.dev/push-notifications/push-notifications-setup/
+
+Introducción a las compilaciones de desarrollo:
+https://docs.expo.dev/develop/development-builds/introduction/
+
+Documentación de las notificaciones de Expo, en la SDK53, puesto que ahora no se puede hacer notificaciones en Expo Go, ahora hay que hacer build
+https://docs.expo.dev/versions/latest/sdk/notifications/
 */
 
 Notifications.setNotificationHandler({
