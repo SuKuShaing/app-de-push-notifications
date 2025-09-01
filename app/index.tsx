@@ -15,6 +15,11 @@ https://docs.expo.dev/develop/development-builds/introduction/
 
 Documentación de las notificaciones de Expo, en la SDK53, puesto que ahora no se puede hacer notificaciones en Expo Go, ahora hay que hacer build
 https://docs.expo.dev/versions/latest/sdk/notifications/
+
+El ProyectId se obtiene en la página de expo, al crear el proyecto, te da los comandos a ejecutar para obtener el token.
+
+Algo se hará con esto
+https://expo.dev/notifications
 */
 
 Notifications.setNotificationHandler({
