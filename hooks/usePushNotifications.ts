@@ -155,7 +155,7 @@ export const usePushNotifications = () => {
 
 		const notificationListener = Notifications.addNotificationReceivedListener(  // añado el listener para recibir las notificaciones push
 			(notification) => {
-				setNotifications([notification, ...notifications]); // se agrega la notificación nueva al inicio de la lista
+				setNotifications((prevNotifications) => [notification, ...prevNotifications]); // se agrega la notificación nueva al inicio de la lista
 			}
 		);
 
