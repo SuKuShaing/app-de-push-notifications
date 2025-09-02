@@ -20,6 +20,19 @@ El ProyectId se obtiene en la página de expo, al crear el proyecto, te da los c
 
 Algo se hará con esto
 https://expo.dev/notifications
+
+
+# Herramienta de Expo para enviar notificaciones push:
+https://expo.dev/notifications
+
+# Paso a paso para obtener las Claves de cuenta de servicio de google mediante FCM V1 (Firebase Cloud Messaging)
+https://docs.expo.dev/push-notifications/fcm-credentials/
+
+# Consola de Firebase:
+https://console.firebase.google.com/u/0/project/expo-push-notifications-seba/settings/general/android:com.sukushaing.pushapp
+
+# Panel de Expo:
+https://expo.dev/accounts/sukushaing/projects/push-app/builds/6db4efe2-5a99-4448-88b3-564067ee64e6
 */
 
 Notifications.setNotificationHandler({
