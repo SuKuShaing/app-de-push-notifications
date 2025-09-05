@@ -21,7 +21,7 @@ const PushApp = () => {
 					fontSize: 25,
 				}}
 			>
-				Notificaciones
+				Notificaciones!
 			</ThemedText>
 
 			<FlatList
