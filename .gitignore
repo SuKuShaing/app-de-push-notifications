@@ -21,6 +21,8 @@ expo-env.d.ts
 # Metro
 .metro-health-check*
 
+Android/
+
 # Firebase
 expo-push-notifications-seba-firebase-adminsdk-fbsvc-b5c9185e4c.json
 google-services.json
